@@ -1,0 +1,25 @@
+<h2></h2>
+
+<ul>
+    <li>
+        <a routerLink="/projects" (click)="toggleSelectedButtonVisual('bar2');">View projects</a>
+    </li>
+    <li>
+        <a routerLink="/dashboard" [queryParams]="{ id: 'new' }" (click)="toggleSelectedButtonVisual('bar2');">Enter new project</a>
+    </li>
+</ul>
+
+<table>
+    <tr>
+        <td class="right">Submitted:</td>
+        <td><a routerLink="/projects" (click)="toggleSelectedButtonVisual('bar2');">{{this.countSubmitted}}</a></td>
+    </tr>
+    <tr>
+        <td class="right">Approved:</td>
+        <td><a routerLink="/projects" (click)="toggleSelectedButtonVisual('bar2');">{{this.countApproved}}</a></td>
+    </tr>
+    <tr>
+        <td class="right">Pending:</td>
+        <td><a routerLink="/projects" (click)="toggleSelectedButtonVisual('bar2');">{{this.countPending}}</a></td>
+    </tr>
+</table>

@@ -1,0 +1,57 @@
+<h2>Register</h2>
+
+<div *ngIf="!this.activatedUser && !this.registrationSubmitMsg">
+
+<form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+    <div class="form-group">
+        <input type="text" placeholder="Full Name" formControlName="fullName" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.fullName.errors }" autofocus/>
+        <div *ngIf="submitted && f.fullName.errors" class="text-danger">
+            <div *ngIf="f.fullName.errors.required">Name is required</div>
+        </div>
+    </div>
+    <div class="form-group">
+        <input type="email" placeholder="Email" formControlName="username" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.username.errors }" />
+        <div *ngIf="f.username.errors" class="text-danger">
+            <div *ngIf="f.username.errors.required">Email is required</div>
+            <div *ngIf="f.username.errors.email">Email address is invalid</div>
+        </div>
+    </div>
+    <div class="form-group">
+        <input type="password" placeholder="Password" formControlName="password" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.password.errors }" />
+        <div *ngIf="submitted && f.password.errors" class="text-danger">
+            <div *ngIf="f.password.errors.required">Password is required</div>
+            <div *ngIf="f.password.errors.minlength">Password should be more than 10 characters</div>
+        </div>
+    </div>
+    <div class="form-group">
+        <input type="password" placeholder="Confirm password" formControlName="confirm" class="form-control" [ngClass]="{ 'is-invalid': submitted && f.confirm.errors }" />
+        <div *ngIf="submitted && f.confirm.errors" class="text-danger">
+            <div *ngIf="f.confirm.errors?.required">Password confirmation is required</div>
+            <div *ngIf="f.confirm.errors?.minlength">Password confirm should be more than 10 characters</div>
+            <div *ngIf="f.confirm.errors?.noMatch">{{f.confirm.errors.noMatch}}</div>
+        </div>
+    </div>
+    <div class="form-group">
+        <!-- <button [disabled]="loading" class="btn btn-primary"> -->
+        <button class="btn btn-primary">
+            <span *ngIf="loading" class="spinner-border spinner-border-sm mr-1">Registering...</span>
+            <span *ngIf="!loading">Register</span>
+        </button>
+        <!-- <a (click)="registerOnClick()" class="btn btn-link" style="color: blue;">Register</a> -->
+        <a routerLink="/login" class="btn btn-link">Cancel</a>
+    </div>
+</form>
+</div>
+
+
+<div *ngIf="this.activatedUser">
+    <h3>{{this.activatedUser}}</h3>
+</div>
+
+<div *ngIf="this.registrationSubmitMsg">
+    <p style="font-size: x-large;">{{this.registrationSubmitMsg}} <a href="mailto:{{this.sentToEmailAddr}}">{{this.sentToEmailAddr}}</a>
+    </p>
+    <p *ngIf="this.sentToEmailAddr">
+        <small>Activation link {{this.timeLeftMsg}}</small>
+    </p>
+</div>

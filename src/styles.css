@@ -1,1 +1,81 @@
 /* You can add global styles to this file, and also import other style files */
+/* Application-wide Styles */
+h1 {
+    color: #369;
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 250%;
+  }
+  h2, h3 {
+    color: #444;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: lighter;
+  }
+  body {
+    margin: 2em;
+  }
+  body, input[type="text"], button {
+    color: #333;
+    font-family: Cambria, Georgia, serif;
+  }
+  button {
+    background-color: #eee;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    color: black;
+    font-size: 1.2rem;
+    padding: 1rem;
+    margin-right: 1rem;
+    margin-bottom: 1rem;
+    margin-top: 1rem;
+  }
+  button:hover {
+    background-color: black;
+    color: white;
+  }
+  button:disabled {
+    background-color: #eee;
+    color: #aaa;
+    cursor: auto;
+  }
+  
+  /* everywhere else */
+  * {
+    font-family: Arial, Helvetica, sans-serif;
+  }
+  
+
+
+table, th, td {
+  border: 1px solid green;
+  border-collapse: collapse;
+  border-style: ridge;
+  padding: 5px;
+  margin: 0px;
+}
+
+td {
+  margin: 0px;
+  border-collapse: collapse;
+  font-family: 'Courier New', Courier, monospace;
+}
+
+tr {
+  margin: 0px;
+  padding: 5px;
+  border-collapse: collapse;
+}
+
+button {
+  padding: 5px 10px;
+}
+
+pre code {
+  display: block;
+  background: darkslategrey;
+  color:greenyellow;
+  white-space: pre;
+  -webkit-overflow-scrolling: touch;
+  padding: 0;
+  margin: 10px;
+}

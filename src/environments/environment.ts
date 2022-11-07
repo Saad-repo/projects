@@ -1,9 +1,15 @@
+import { EnvironmentInterface } from "./environment-interface";
+
 // This file can be replaced during build by using the `fileReplacements` array.
 // `ng build` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
 
-export const environment = {
-  production: false
+export const environment: EnvironmentInterface = {
+  production: false,
+  //apiUrl: 'http://[2601:247:4300:44b:b8b2:4cf1:7d63:1832]/api1/api/',
+  apiUrl: 'https://localhost:7083/api/', // 'http://localhost:5083',
+  cdnUrl: 'assets/', // 'https://datasense.dev/cdn/app1/',
+  headerNameIp: "cl-id",
 };
 
 /*
@@ -14,3 +20,4 @@ export const environment = {
  * on performance if an error is thrown.
  */
 // import 'zone.js/plugins/zone-error';  // Included with Angular CLI.
+ 

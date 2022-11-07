@@ -1,0 +1,54 @@
+<h2>Projects</h2>
+
+<table *ngIf="!this.enteringNew">
+    <tr>
+        <th>Project Name</th>
+        <th>Description</th>
+        <th>Links</th>
+        <th>States</th>
+        <th>Cost</th>
+        <th>Actions</th>
+    </tr>
+    <ng-container *ngFor="let prj of projects">
+        <tr>
+            <td><strong>{{prj.projectName}}</strong></td>
+            <td>{{prj.description}}</td>
+            <td>{{prj.projectLinks}}</td>
+            <td>{{prj.projectStates}}</td>
+            <td>{{prj.projectCost|currency}}</td>
+            <td>
+                <a href="#" class="tooltip">Apr<span class="tooltipText">Approve</span></a>
+                <a href="#" class="tooltip">Edt<span class="tooltipText">Edit</span></a>
+                <a href="#" class="tooltip">Del<span class="tooltipText">Delete</span></a></td>
+        </tr>
+    </ng-container>
+</table>
+
+<div *ngIf="this.enteringNew" class="inputForm">
+    <!-- <div><label for="submit_id">SubmitId: </label><input id="submit_id" type="text">               </div>      
+	<div><label for="submit_user">SubmitUser: </label><input id="submit_user" type="text">         </div>  -->
+	<div><label for="project_name">Project Name: </label><input id="project_name" type="text" [(ngModel)]="newPrj.projectName">
+    </div>        
+	<div><label for="description">Description: </label>
+        <textarea id="description" type="text" [(ngModel)]="newPrj.description"></textarea>
+    </div>
+	<div><label for="project_links">Project Links: </label>
+        <textarea id="project_links" type="text" [(ngModel)]="newPrj.projectLinks"></textarea>
+    </div>
+	<div><label for="project_date">Project Date: </label>
+        <input id="project_date" type="date" [(ngModel)]="newPrj.projectDate"
+        [value]="newPrj.projectDate">
+    </div>
+	<div><label for="project_cost">Project Cost: </label>
+        <input id="project_cost" type="text" [(ngModel)]="newPrj.projectCost">
+    </div>
+	<div><label for="project_states">States: </label><input id="project_states" type="text" [(ngModel)]="newPrj.projectStates"></div>
+	<!-- <div><label for="create_dt">CreateDt: </label><input id="create_dt" type="date">               </div>    
+	<div><label for="update_dt">UpdateDt: </label><input id="update_dt" type="date">               </div>    
+	<div><label for="update_user">UpdateUser: </label><input id="update_user" type="date">         </div>          
+	<div><label for="status">Status: </label><input id="status" type="text">                       </div> -->
+
+    <button class="add-button"  (click)="save();" class="add-button">
+        Save
+      </button>    
+</div>
