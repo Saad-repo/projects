@@ -5,7 +5,7 @@
         <a routerLink="/projects" (click)="toggleSelectedButtonVisual('bar2');">View projects</a>
     </li>
     <li>
-        <a routerLink="/dashboard" [queryParams]="{ id: 'new' }" (click)="toggleSelectedButtonVisual('bar2');">Enter new project</a>
+        <a [routerLink]="['/projects','new']" (click)="toggleSelectedButtonVisual('bar2');">Enter new project</a>
     </li>
 </ul>
 

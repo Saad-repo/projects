@@ -9,11 +9,14 @@ import { LandingPageComponent } from './landing-page/landing-page.component';
 
 const routes: Routes = [
   { path: 'login', component: LoginComponent },
-  { path: '', redirectTo: '/login', pathMatch: 'full'},
+  { path: 'login/:action', component: LoginComponent },
+  { path: '', redirectTo: '/login', pathMatch: 'full' },
   { path: 'register', component: RegisterComponent },
   { path: 'register/:activationCode', component: RegisterComponent },
   { path: 'projects', component: ProjectsComponent },
-  { path: 'dashboard', component: LandingPageComponent},
+  { path: 'projects/:action', component: ProjectsComponent },
+  { path: 'dashboard', component: LandingPageComponent },
+  { path: 'dashboard/:id', component: LandingPageComponent },
 ];
 
 @NgModule({

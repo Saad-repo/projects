@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
+import {CookieService} from 'ngx-cookie-service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UtilService {
 
-  constructor() { }
+  constructor(    private cookieService: CookieService    ) { }
 
 
   public static resetButtonColors() {
@@ -18,7 +19,20 @@ export class UtilService {
 
   public static setButtonColorActive(elemID: string) {
     let b: any = document.getElementById(elemID);
-    b.style.backgroundColor = "chartreuse";
+    if(b)
+      b.style.backgroundColor = "chartreuse";
   }
+
+  public getCookieUid(){
+      // console.log('Util.getting uid cookie...');
+      let uid = this.cookieService.get('uid');
+      // console.log('uid', uid);
+      return uid;
+  }  
+
+  public deleteCookie(name: string){
+    this.cookieService.delete(name);
+  }
+
 
 }

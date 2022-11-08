@@ -1,7 +1,7 @@
 <h2>Login</h2>
 
 <div *ngIf="this.registrationMsg">
-    <p style="font-size: xx-large;">{{this.registrationMsg}}</p>
+    <p style="font-size: x-large;">{{this.registrationMsg}}</p>
 </div>
 
 <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" *ngIf="this.showLoginForm">

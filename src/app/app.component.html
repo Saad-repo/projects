@@ -3,7 +3,7 @@
     <div class="item">
     <img src="{{this.imgLogo}}" class="center"/>
 
-    <nav *ngIf="this.showPageBottons">
+    <nav *ngIf="this.isLoggedIn();">
         <a routerLink="/dashboard" class="tooltip" (click)="toggleSelectedButtonVisual('bar1');">Home
             <div id="bar1" class="activeAppButton"></div>
             <span class="tooltipText">Home</span>
@@ -12,7 +12,7 @@
             <div id="bar2" class="activeAppButton"></div>
             <span class="tooltipText">Projects</span>
         </a>
-        <a routerLink="/login" class="tooltip" (click)="toggleSelectedButtonVisual('bar3');">Sign out
+        <a [routerLink]="['/login', 'logout']" class="tooltip" (click)="toggleSelectedButtonVisual('bar3');">Sign out
             <div id="bar3" class="activeAppButton"></div>
             <span class="tooltipText">Logout</span>
         </a>

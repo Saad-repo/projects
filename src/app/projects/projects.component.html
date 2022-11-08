@@ -7,19 +7,22 @@
         <th>Links</th>
         <th>States</th>
         <th>Cost</th>
+        <th>Status</th>
         <th>Actions</th>
     </tr>
     <ng-container *ngFor="let prj of projects">
         <tr>
             <td><strong>{{prj.projectName}}</strong></td>
             <td>{{prj.description}}</td>
-            <td>{{prj.projectLinks}}</td>
+            <td [innerHtml]="prj.projectLinks"></td>
             <td>{{prj.projectStates}}</td>
             <td>{{prj.projectCost|currency}}</td>
+            <td>{{prj.status}}</td>
             <td>
-                <a href="#" class="tooltip">Apr<span class="tooltipText">Approve</span></a>
-                <a href="#" class="tooltip">Edt<span class="tooltipText">Edit</span></a>
-                <a href="#" class="tooltip">Del<span class="tooltipText">Delete</span></a></td>
+                <a [routerLink]="" (click)="submit(prj);" class="tooltip" *ngIf="this.canSubmit(prj);">Submit<span class="tooltipText">Submit</span></a>
+                <a [routerLink]="" (click)="approve(prj);" class="tooltip" *ngIf="this.canApprove(prj);">Apr<span class="tooltipText">Approve</span></a>
+                <a [routerLink]="" (click)="edit(prj);" class="tooltip" *ngIf="this.canEdit(prj);">Edit<span class="tooltipText">Edit</span></a>
+                <a [routerLink]="" (click)="delete(prj);" class="tooltip" *ngIf="this.canDelete(prj);">Del<span class="tooltipText">Delete</span></a></td>
         </tr>
     </ng-container>
 </table>
@@ -29,17 +32,19 @@
 	<div><label for="submit_user">SubmitUser: </label><input id="submit_user" type="text">         </div>  -->
 	<div><label for="project_name">Project Name: </label><input id="project_name" type="text" [(ngModel)]="newPrj.projectName">
     </div>        
-	<div><label for="description">Description: </label>
-        <textarea id="description" type="text" [(ngModel)]="newPrj.description"></textarea>
+	<div>
+        <!-- <label for="description">Description: </label> -->
+        <textarea id="description" type="text" [(ngModel)]="newPrj.description" placeholder="Project description"></textarea>
     </div>
-	<div><label for="project_links">Project Links: </label>
-        <textarea id="project_links" type="text" [(ngModel)]="newPrj.projectLinks"></textarea>
+	<div>
+        <!-- <label for="project_links">Project Links: </label> -->
+        <textarea id="project_links" type="text" [(ngModel)]="newPrj.projectLinks" placeholder="Project links"></textarea>
     </div>
 	<div><label for="project_date">Project Date: </label>
-        <input id="project_date" type="date" [(ngModel)]="newPrj.projectDate"
+        <input id="project_date" type="date" [ngModel]="newPrj.projectDate | date:'yyyy-MM-dd'"
         [value]="newPrj.projectDate">
     </div>
-	<div><label for="project_cost">Project Cost: </label>
+	<div><label for="project_cost">Project Cost: $</label>
         <input id="project_cost" type="text" [(ngModel)]="newPrj.projectCost">
     </div>
 	<div><label for="project_states">States: </label><input id="project_states" type="text" [(ngModel)]="newPrj.projectStates"></div>
@@ -50,5 +55,10 @@
 
     <button class="add-button"  (click)="save();" class="add-button">
         Save
-      </button>    
+    </button>   
+    <button class="add-button"  (click)="cancel();" class="add-button">
+        Cancel
+    </button>   
+
 </div>
+

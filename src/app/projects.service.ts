@@ -3,6 +3,7 @@ import { Observable, of } from 'rxjs';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { catchError, map, tap } from 'rxjs/operators';
 import { environment } from '../environments/environment';
+import { UtilService } from './util.service';
 
 @Injectable({
   providedIn: 'root'
@@ -14,31 +15,93 @@ export class ProjectsService {
   constructor(private http: HttpClient) { }
 
 
-  getProjects(): Observable<Project[]> {
-    return this.http.get<Project[]>(this.prjsUrl)
+  getProjects(uid: string): Observable<Project[]> {
+    return this.http.get<Project[]>(this.prjsUrl + "?activationCode="+uid)
     .pipe(
-      tap(_ => this.log("fetched projects from "+ this.prjsUrl)),
+      tap(
+        //_ => this.log("fetched projects from "+ this.prjsUrl + "?activationCode="+uid)
+        ),
       catchError(this.handleError<Project[]>('getProjects', undefined))
     );
   }
 
+  getProjectsSummary(uid: string): Observable<ProjectSummary[]> {
+    return this.http.get<ProjectSummary[]>(this.prjsUrl + "/summary?activationCode="+uid)
+    .pipe(
+      tap(
+        //_ => this.log("fetched projects from "+ this.prjsUrl + "?activationCode="+uid)
+        ),
+      catchError(this.handleError<ProjectSummary[]>('getProjects', undefined))
+    );
+  }
+
+
   saveProject(prj: Project) {
 
-    this.log(this.prjsUrl + "/save");
+    // this.log(this.prjsUrl + "/save");
 
     const headers= new HttpHeaders()
               .set(environment.headerNameIp, "skip ip fetch");
 
     return this.http.post(this.prjsUrl + "/save", prj, undefined)
     .pipe(
-      tap(_ => this.log("saving projects at "+ this.prjsUrl+ "/save")),
+      tap(
+        // _ => this.log("saving projects at "+ this.prjsUrl+ "/save")
+      ),
       catchError(this.handleError<Project[]>('saveProjects', undefined))
     );
   }
 
+
+  deletePrj(uid: string, id: number) {
+    // const headers= new HttpHeaders()
+    //           .set(environment.dynamicCtxCodeHeaderName, MySecurityService.getDynamicCode());
+    let left = uid.substring(0, 4);
+    let right = uid.slice(-4);
+
+    return this.http.delete(this.prjsUrl + '/' + `${left}${id}${right}`)
+      .pipe(
+        tap(
+          // _ => this.log('deleting project'+ `${left}${id}${right}`)
+          ),
+        catchError(this.handleError<any>('deletePrj', undefined))
+      );
+  }
+
+  submitPrj(uid: string, id: number) {
+    // const headers= new HttpHeaders()
+    //           .set(environment.dynamicCtxCodeHeaderName, MySecurityService.getDynamicCode());
+    let left = uid.substring(0, 4);
+    let right = uid.slice(-4);
+
+    return this.http.put(this.prjsUrl + '/Submit/' + `${left}${id}${right}`, undefined)
+      .pipe(
+        tap(
+          // _ => this.log('deleting project'+ `${left}${id}${right}`)
+          ),
+        catchError(this.handleError<any>('submitPrj', undefined))
+      );
+  }
+
+
+  approvePrj(uid: string, id: number) {
+    // const headers= new HttpHeaders()
+    //           .set(environment.dynamicCtxCodeHeaderName, MySecurityService.getDynamicCode());
+    let left = uid.substring(0, 4);
+    let right = uid.slice(-4);
+
+    return this.http.put(this.prjsUrl + '/Approve/' + `${left}${id}${right}`, undefined)
+      .pipe(
+        tap(
+          // _ => this.log('deleting project'+ `${left}${id}${right}`)
+          ),
+        catchError(this.handleError<any>('approvePrj', undefined))
+      );
+  }
+
   /** Log a EventsService message with the MessageService */
   private log(message: string) {
-    console.log(`EventsService: ${message}`);
+    console.log(`ProjectsService: ${message}`);
   }
 
 
@@ -61,7 +124,7 @@ export class ProjectsService {
       return of(result as T);
     };
   }  
-
+ 
 }
 
 
@@ -79,4 +142,10 @@ export interface Project {
 	updateDt: Date;
 	updateUser: number;
 	status: string;
+  activationCode: string;
+}
+
+export interface ProjectSummary {
+	status: string;
+	count: number;
 }

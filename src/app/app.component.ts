@@ -3,6 +3,7 @@ import {environment} from '../environments/environment';
 import { Router, ActivatedRoute } from '@angular/router';
 import { LoginService } from './login.service';
 import { UtilService } from './util.service';
+import {CookieService} from 'ngx-cookie-service';
 
 @Component({
   selector: 'app-root',
@@ -12,10 +13,11 @@ import { UtilService } from './util.service';
 export class AppComponent {
   title = 'Projects Registry';
   imgLogo = environment.cdnUrl + "logo-university.png";
-  get showPageBottons():boolean {return LoginService.isSignedIn;}
+  uidExists: boolean = false;
 
   constructor(private route: ActivatedRoute,
     private loginService: LoginService,
+    private cookieService: CookieService
     ) {}
 
   ngOnInit(): void {
@@ -25,6 +27,7 @@ export class AppComponent {
   toggleSelectedButtonVisual(elemID: string): void {
     if(elemID == "bar3") {
       this.loginService.logOut();
+      this.deleteCookie('uid');
     }
     // else if (elemID == "bar5") {
     //   this.settingsButtonsSectionActive = true;
@@ -37,6 +40,21 @@ export class AppComponent {
     UtilService.setButtonColorActive(elemID);
   }
 
-  
+
+  isLoggedIn(): boolean {
+    if(!this.uidExists){
+      // console.log('getting uid cookie...');
+      let uid = this.cookieService.get('uid');
+      if(uid)
+        return true;
+    }
+
+    return false;
+  }
+
+  deleteCookie(name: string){
+    this.cookieService.delete(name);
+  }
+
   
 }

@@ -5,6 +5,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AppComponent } from '../app.component';
 import { environment } from '../../environments/environment';
 import { LoginService } from '../login.service';
+import {CookieService} from 'ngx-cookie-service';
 
 @Component({
   selector: 'app-login',
@@ -26,6 +27,7 @@ export class LoginComponent implements OnInit {
     private router: Router,
     private loginService: LoginService,
     private route: ActivatedRoute,
+    private cookieService: CookieService
   ) { }
 
   ngOnInit(): void {
@@ -35,7 +37,13 @@ export class LoginComponent implements OnInit {
     });
 
     // console.log('inside ngOnInit of login component');
+    // console.log(this.route.snapshot.paramMap);
     
+    const action = this.route.snapshot.paramMap.get('action');
+    if(action && action == "logout") {
+      this.deleteCookie('uid');
+      return;
+    }
 
     const actionId = this.route.snapshot.paramMap.get('id');
     if(actionId) {
@@ -45,6 +53,10 @@ export class LoginComponent implements OnInit {
       else if(actionId == "zx5Te") {
         this.registrationMsg = "Account activation failed.";
         this.showLoginForm = false;
+      }
+      else if(actionId == "Xp5TK") {
+        this.registrationMsg = "Session expired.";
+        this.showLoginForm = true;
       }
     }
   }
@@ -71,8 +83,9 @@ export class LoginComponent implements OnInit {
 
     this.loginService.login(this.loginForm.controls.username.value, this.loginForm.controls.password.value)
                  .subscribe(u=>{
-                   // console.log(u);
+                  // console.log(u);
                   LoginService.isSignedIn = true;
+                  this.setCookieUid(u);
                   this.router.navigate(['/dashboard',{id:"Kx5TK"}]);
       }, error=> {
           LoginService.isSignedIn = false;
@@ -82,11 +95,31 @@ export class LoginComponent implements OnInit {
 
   }
 
+  setCookieUid(u: any){
+    let expDt = new Date();
+    expDt.setMinutes(expDt.getMinutes() + 45);
+    this.cookieService.set('uid', (u as ProjectUsers).activationCode, expDt);
+  }
 
+  deleteCookie(name: string){
+    this.cookieService.delete(name);
+  }
 
   // convenience getter for easy access to form fields
   get f() { return this.loginForm.controls; }
 
 
 
+}
+
+export interface ProjectUsers {
+	userId: number;
+	email: string;
+	fullName: string;
+	userName: string;
+	description: string;
+	roles: string;
+	createDt: Date;
+	activationCode: string;
+	isActive: boolean;
 }
