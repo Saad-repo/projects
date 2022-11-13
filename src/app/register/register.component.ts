@@ -85,12 +85,13 @@ export class RegisterComponent implements OnInit {
     }
     this.loading = true;
 
+    //console.log("registering...");
     const email: string = this.loginForm.controls.username.value;
     this.loginService.register(this.loginForm.controls.fullName.value, email, this.loginForm.controls.password.value)
                  .subscribe(u=>{
                   //console.log("DEBUG: respns frm loginSrvc.register", u);
                     //this.router.navigate(['/dashboard',{id:"zx5TK"}]);
-                  
+                    //console.log("registering2...", u);
                   if(u){
                     //console.log("DEBUG: Yes, API.singup returned 200 u", u);
                     this.sentToEmailAddr = email;
@@ -103,8 +104,9 @@ export class RegisterComponent implements OnInit {
         }, e => {
           //console.log("DEBUG: Error in register function", e);
           this.sentToEmailAddr = null;
-          if(e.status = 300) 
+          if(e.status = 300) {
             this.registrationSubmitMsg = e.error;
+          }
           else 
             console.log("loginsrvc returned error",e);
         });
@@ -112,7 +114,7 @@ export class RegisterComponent implements OnInit {
 
   }
 
-  timerMins: number = 2;
+  timerMins: number = 45;
   timeLeft: number = this.timerMins * 60;
   interval: any;
   timeLeftMsg: string = `expires in ${this.timerMins} minutes`;

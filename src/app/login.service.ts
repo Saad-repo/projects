@@ -49,12 +49,12 @@ export class LoginService {
       .pipe(
         tap(r => {
           //console.log('singupurl', this.signUpUrl);
-          //console.log('response from signup endpoint:',r);
+          console.log('response from signup endpoint:',r);
           
            //this.log('Registering user');
                 LoginService.isSignedIn = true;
-                  })
-                  ,catchError(this.handleError<any>('RegisterUser', undefined))
+          })
+        //,catchError(this.handleError<any>('RegisterUser', undefined))
       ));
   } 
 
