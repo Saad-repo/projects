@@ -22,9 +22,16 @@ public class ProjectsController : Controller
     }
 
     [HttpGet]
-    public async Task<IActionResult> GetAll()
+    public async Task<IActionResult> GetAll([FromQuery] string activationCode)
     {
-        var projects = await projectsService.GetProjects();
+        var projects = await projectsService.GetProjects(activationCode);
+        return Ok(projects);
+    }
+
+    [HttpGet("summary")]
+    public async Task<IActionResult> GetProjectStatusSummary([FromQuery] string activationCode)
+    {
+        var projects = await projectsService.GetProjectStatusSummary(activationCode);
         return Ok(projects);
     }
 
@@ -38,4 +45,28 @@ public class ProjectsController : Controller
         return Ok("{\"count\": " + count.ToString() + " }");
     }
 
+    [HttpDelete("{id}")]
+    public async Task<IActionResult> Delete(string id)
+    {
+        if (id.Length < 9)
+            return ValidationProblem();
+
+        int count = await this.projectsService.DeleteProject(id);
+        return Ok("{\"count\": " + count.ToString() + " }");
+    }
+
+
+    [HttpPut("{actionCode}/{encodedId}")]
+    public async Task<IActionResult> Approve([FromRoute] string actionCode, [FromRoute] string encodedId)
+    {
+        if (encodedId.Length < 9)
+            return ValidationProblem();
+
+        int count = 0;
+        if (actionCode == "Submit")
+            count = await this.projectsService.ApproveProject(encodedId, "Submitted");
+        else if (actionCode == "Approve")
+            count = await this.projectsService.ApproveProject(encodedId, "Approved");
+        return Ok("{\"count\": " + count.ToString() + " }");
+    }
 }
